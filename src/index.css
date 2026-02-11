@@ -1,0 +1,10 @@
+@import "tailwindcss";
+
+@font-face {
+    font-family: "myFont";
+    src: url(/public/fonts/Valty\ DEMO.otf)
+}
+
+@theme{
+    --font-valty : myFont;
+}
