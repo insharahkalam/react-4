@@ -1,7 +1,10 @@
 import React, { useEffect, useState } from 'react'
 import { GoArrowUpRight } from "react-icons/go";
+import { Link } from "react-router-dom";
 
-const Cards = () => {
+const Cards = ({ search }) => {
+    console.log(search);
+
     const [countries, setCountries] = useState([])
     const [currentPage, setCurrentPage] = useState(1);
     const itemsPerPage = 60;
@@ -11,52 +14,64 @@ const Cards = () => {
             .then((res) => res.json())
             .then((data) => {
                 setCountries(data)
+                setCurrentPage(1)
             })
-    }, [])
+    }, [search])
+
+    const filterdCountry = countries.filter((items) =>
+        items.name.common.toLowerCase().includes(search.toLowerCase()))
 
     const indexOfLastItem = currentPage * itemsPerPage;
-    console.log(indexOfLastItem);
-
     const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-    console.log(indexOfFirstItem);
-    console.log(countries);
-
-
-    const currentCountries = countries.slice(indexOfFirstItem, indexOfLastItem);
-    console.log(currentCountries);
-
-
-    const totalPages = Math.ceil(countries.length / itemsPerPage);
-    console.log(totalPages);
+    const currentCountries = filterdCountry.slice(indexOfFirstItem, indexOfLastItem);
+    const totalPages = Math.ceil(filterdCountry.length / itemsPerPage);
 
     const pageNumbers = [];
     for (let i = 1; i <= totalPages; i++) {
         pageNumbers.push(i);
         console.log(i);
         console.log(pageNumbers);
-
     }
 
     return (
         <>
             <section className=' my-6 bg-white px-6 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 2xl:grid-cols-5 gap-5'>
-                {currentCountries.map((one, index) => (
 
-                    <div key={index} className='hover:scale-103 hover:shadow-lg hover:shadow-red-300 transition duration-500 block flex flex-col items-center justify-center shadow-xs shadow-red-200  rounded-2xl'>
-                        <img className='rounded-2xl h-[190px] w-[350px]' src={one.flags.png} alt="" />
-                        <div className='my-2 border-t w-full border-gray-200'>
-                            <p className=" text-3xl line-clamp-1 text-center font-bold font-valty text-body">{one.name.common}</p>
-                            <button className="flex font-normal w-full text-center items-center gap-1 text-sm font-serif capitalize justify-center hover:underline">
-                                View Details <GoArrowUpRight />
-                            </button>
-                        </div>
+                {filterdCountry.length === 0 ? (
+                    <div className="col-span-full text-center py-20">
+                        <h2 className="text-3xl font-bold text-gray-500">
+                            No Country Found 😢
+                        </h2>
+                        <p className="text-gray-400 mt-2">
+                            Try searching another country name
+                        </p>
                     </div>
 
-                ))}
+                ) : (
+
+                    currentCountries.map((one, index) => (
+                        <div key={index} className='hover:scale-103 hover:shadow-lg hover:shadow-red-300 transition duration-500 block flex flex-col items-center justify-center shadow-xs shadow-red-200  rounded-2xl'>
+                            <img className='rounded-2xl h-[190px] w-[350px]' src={one.flags.png} alt="" />
+                            <div className='my-2 border-t w-full border-gray-200'>
+                                <p className=" text-3xl line-clamp-1 text-center font-bold font-valty text-body">{one.name.common}</p>
+                                {/* <button className="flex font-normal w-full text-center items-center gap-1 text-sm font-serif capitalize justify-center hover:underline">
+                                    View Details <GoArrowUpRight />
+                                </button> */}
+
+                                <Link to={`/country/${one.cca3}`}
+                                    className="flex w-full items-center gap-1 text-sm font-serif justify-center hover:underline mt-1">
+                                    View Details <GoArrowUpRight />
+                                </Link>
+                            </div>
+                        </div>
+
+                    ))
+                )}
 
 
             </section>
-            <div className='my-10 px-6 flex items-end justify-center w-full' >
+
+            {filterdCountry.length === 0 ? null : <div className='my-10 px-6 flex items-end justify-center w-full' >
 
                 <button
                     className={`px-4 py-2 font-bold rounded-full border text-gray-700 border-gray-200 text-sm hover:bg-gray-200 transition ${currentPage === 1 ? 'cursor-not-allowed' : 'cursor-pointer'}`}
@@ -86,7 +101,8 @@ const Cards = () => {
                     Next
                 </button>
 
-            </div >
+            </div >}
+
         </>
     )
 }
