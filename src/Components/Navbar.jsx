@@ -1,12 +1,12 @@
 import { useState } from "react";
 import { MdDarkMode } from "react-icons/md";
 import { MdOutlineDarkMode } from "react-icons/md";
-import logo from '../assets/logo.png'
+
 const Navbar = () => {
     const [theme, setTheme] = useState(false)
     return (
         <>
-            <div className={`${theme ? 'bg-black text-white' : 'bg-white text-black'} px-6 shadow-2xl  flex justify-between items-center w-full h-17`}>
+            <div className={`${theme ? 'bg-black text-white' : 'bg-white text-black'} px-6 shadow-md flex justify-between items-center w-full h-20`}>
                 <h1 className="text-xl md:text-4xl hover:scale-103 transition duration-500 cursor-pointer w-1/5 leading-3.5 md:leading-5 ">
                     <span className="text-blue-900 font-valty">Country</span><br />
                     <span className="text-green-500 ms-4 md:ms-7 font-valty">Explorer</span>
