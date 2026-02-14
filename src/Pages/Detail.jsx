@@ -1,5 +1,6 @@
 import { useParams, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
+import Navbar from '../Components/Navbar'
 
 const Detail = () => {
   const { code } = useParams();
@@ -14,59 +15,59 @@ const Detail = () => {
 
   if (!country)
     return (
-      <h1 className="text-center mt-20 text-2xl font-medium">
-        Loading...
-      </h1>
+      <div className="flex items-center justify-center h-screen bg-gray-200">
+        <span className="loader"></span>
+      </div>
     );
 
+
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-100 p-6">
+    <>
+      <Navbar />
 
-      <div className="max-w-4xl w-full bg-white rounded-lg shadow-md overflow-hidden">
+      <div className="min-h-screen flex items-center justify-center bg-gray-200 py-10">
+        <div className="max-w-2xl w-full bg-white rounded-3xl shadow-red-200 shadow-lg hover:shadow-3xl hover:shadow-red-300 cursor-pointer transition duration-500 hover:scale-105 overflow-hidden">
+          <img
+            src={country.flags.png}
+            alt={country.name.common}
+            className="w-full h-85 object-cover"
+          />
+          {/* {console.log(country)} */}
 
-        {/* Flag */}
-        <img
-          src={country.flags.png}
-          alt={country.name.common}
-          className="w-full h-56 object-cover"
-        />
+          <div className="p-6">
 
-        {/* Content */}
-        <div className="p-6">
+            <h1 className="text-4xl font-valty text-center mb-6">
+              {country.name.common}
+            </h1>
 
-          <h1 className="text-3xl font-semibold mb-6">
-            {country.name.common}
-          </h1>
+            <div className="grid md:grid-cols-2 gap-4 text-gray-700 mb-8">
 
-          <div className="grid md:grid-cols-2 gap-4 text-gray-700 mb-8">
+              <p className="font-bold font-valty text-2xl capitalize text-red-700"><span className="font-bold text-2xl capitalize text-gray-700" >Official Name:</span> {country.name.official}</p>
+              <p className="font-bold font-valty text-2xl capitalize text-red-700"><span className="font-bold text-2xl capitalize text-gray-700" >Capital:</span> {country.capital?.[0]}</p>
 
-            <p><span className="font-semibold text-gray-900">Official Name:</span> {country.name.official}</p>
-            <p><span className="font-semibold text-gray-900">Capital:</span> {country.capital?.[0]}</p>
+              <p className="font-bold font-valty text-2xl capitalize text-red-700"><span className="font-bold text-2xl capitalize text-gray-700" >Region:</span> {country.region}</p>
+              <p className="font-bold font-valty text-2xl capitalize text-red-700"><span className="font-bold text-2xl capitalize text-gray-700" >Sub Region:</span> {country.subregion}</p>
 
-            <p><span className="font-semibold text-gray-900">Region:</span> {country.region}</p>
-            <p><span className="font-semibold text-gray-900">Sub Region:</span> {country.subregion}</p>
+              <p className="font-bold font-valty text-2xl capitalize text-red-700"><span className="font-bold text-2xl capitalize text-gray-700" >Population:</span> {country.population.toLocaleString()}</p>
+              <p className="font-bold font-valty text-2xl capitalize text-red-700"><span className="font-bold text-2xl capitalize text-gray-700" >Area:</span> {country.area.toLocaleString()} km²</p>
 
-            <p><span className="font-semibold text-gray-900">Population:</span> {country.population.toLocaleString()}</p>
-            <p><span className="font-semibold text-gray-900">Area:</span> {country.area.toLocaleString()} km²</p>
+              <p className="font-bold font-valty text-2xl capitalize text-red-700"><span className="font-bold text-2xl capitalize text-gray-700" >subregion:</span> {country.subregion}</p>
+              <p className="font-bold font-valty text-2xl capitalize text-red-700"><span className="font-bold text-2xl capitalize text-gray-700" >Start of Week:</span> {country.startOfWeek}</p>
 
-            <p><span className="font-semibold text-gray-900">Timezones:</span> {country.timezones.join(", ")}</p>
-            <p><span className="font-semibold text-gray-900">Start of Week:</span> {country.startOfWeek}</p>
+            </div>
 
+            <div className="text-right">
+              <button
+                onClick={() => navigate("/")}
+                className="px-5 py-2 font-valty text-2xl border border-gray-400 rounded-md text-green-700 hover:scale-105 duration-500 cursor-pointer transition"
+              >
+                Back to Home
+              </button>
+            </div>
           </div>
-
-          {/* Back Button */}
-          <div className="text-right">
-            <button
-              onClick={() => navigate("/")}
-              className="px-5 py-2 border border-gray-400 rounded-md text-gray-700 hover:bg-gray-100 transition"
-            >
-              ← Back to Home
-            </button>
-          </div>
-
         </div>
       </div>
-    </div>
+    </>
   );
 };
 
